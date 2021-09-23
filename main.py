@@ -47,6 +47,8 @@ def read_interaction_file_dict(nom_fichier):
             dico[nom_fichier.Sommet[a]] = nom_fichier.Interaction[a]
     return dico
 
+read_interaction_file_dict(Human_HighQuality)
+
 def read_interaction_file_list(data):
     res_list = []
     for i in range(len(data)):
@@ -57,7 +59,26 @@ def read_interaction_file_list(data):
         pass
     return res_list
 
-read_interaction_file_dict(Human_HighQuality)
+read_interaction_file_list(Human_HighQuality)
 
+# df exemple
+#df = pd.DataFrame({'Sommet': ["ZW10_HUMAN", "ZWINT_HUMAN", "ZY11B_HUMAN", "ZYX_HUMAN", "ZYX_HUMAN", "ZN384_HUMAN"],
+ #                  'Interaction': ["ZWINT_HUMAN", "ZW10_HUMAN", "ELOC_HUMAN","NEBL_HUMAN", "ZN384_HUMAN", "ZYX_HUMAN"]})
 
+# Question 1.2.3 structure 3
+def read_interaction_file_mat(data):
+    list_sommet = list(data.Sommet[data.Sommet.duplicated()==False])
+    list_interaction = list(data.Interaction[data.Interaction.duplicated()==False])
+    res_mat = pd.DataFrame(numpy.zeros((len(list_interaction), len(list_sommet)), dtype=int),
+                               index=list_interaction, columns=list_sommet)
+    res_list = []
+    for i in range(len(data)):
+        res = [data.Sommet[i], data.Interaction[i]]
+        res_list.append(res)
+    for sommet in list_sommet:
+        for interaction in list_interaction:
+            if [sommet, interaction] in res_list:
+                res_mat.loc[interaction][sommet] = 1
+    return res_mat
 
+read_interaction_file_mat(Human_HighQuality)
