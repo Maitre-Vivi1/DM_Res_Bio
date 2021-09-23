@@ -1,7 +1,10 @@
+# TODO : Commenter / restructurer le code suivant consignes
+
 # Travail avec un fichier tabulé / DataFrame
 import pandas as pd
 # Pour l'écriture du graph d'intéractions
 import json
+import numpy
 
 # Question 1.1
 
@@ -26,7 +29,6 @@ with open('Graph_Inter_Vivien.txt', 'w') as file:
 # On charge le fichier correspondant au travail demandé dans l'environnement de travail en précisant
 # le nom des deux colonnes
 Human_HighQuality = pd.read_csv('Human_HighQuality.txt', sep='\t', header=0, names=['Sommet', 'Interaction'])
-donnees_test = Human_HighQuality.loc[1:50]
 
 
 # fonction utilisée afin de délister les éléments
@@ -38,7 +40,7 @@ def flatten(d):
 # Construction de la fonction permettant de décrire les intéractions entre protéines
 def read_interaction_file_dict(nom_fichier):
     dico = {} # Initialisation du dictionnaire
-    for a in range(1, len(nom_fichier)):
+    for a in range(0, len(nom_fichier)):
         try:
             if len(dico[nom_fichier.Sommet[a]]) > 0:
                 dico[nom_fichier.Sommet[a]] = flatten([dico[nom_fichier.Sommet[a]], nom_fichier.Interaction[a]])
@@ -61,10 +63,8 @@ def read_interaction_file_list(data):
 
 read_interaction_file_list(Human_HighQuality)
 
-# df exemple
-#df = pd.DataFrame({'Sommet': ["ZW10_HUMAN", "ZWINT_HUMAN", "ZY11B_HUMAN", "ZYX_HUMAN", "ZYX_HUMAN", "ZN384_HUMAN"],
- #                  'Interaction': ["ZWINT_HUMAN", "ZW10_HUMAN", "ELOC_HUMAN","NEBL_HUMAN", "ZN384_HUMAN", "ZYX_HUMAN"]})
 
+# TODO : Trop long :O
 # Question 1.2.3 structure 3
 def read_interaction_file_mat(data):
     list_sommet = list(data.Sommet[data.Sommet.duplicated()==False])
@@ -79,6 +79,33 @@ def read_interaction_file_mat(data):
         for interaction in list_interaction:
             if [sommet, interaction] in res_list:
                 res_mat.loc[interaction][sommet] = 1
-    return res_mat
+    l_som =  list(res_mat.columns)
+    return res_mat, l_som
 
 read_interaction_file_mat(Human_HighQuality)
+
+
+# Question 2.4
+
+def read_interactions_file(nom_fichier):
+    d_int = read_interaction_file_dict(nom_fichier)
+    l_int = read_interaction_file_list(nom_fichier)
+    mat = read_interaction_file_mat(nom_fichier)
+    m_int = mat[1]
+    l_som = mat[2]
+    return(d_int, l_int, m_int, l_som)
+
+# Question 2.5
+
+# On pourrait se contenter de seulement le disctionnaire / la liste ou bien la matrice et sa liste de sommets
+# puisque ces objets caractérisent tous complétement le graphe d'intéraction
+
+
+
+
+
+
+
+
+
+

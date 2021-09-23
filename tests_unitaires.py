@@ -1,3 +1,6 @@
+# TODO : tests unitaires restants et codage classe :)
+
+
 import unittest
 
 
@@ -34,12 +37,31 @@ def test_read_interaction_file_dict():
     else:
         print("Nombre d'intéractions ne correspond pas au dictionnaire ou bien le dictionnaire renvoyé est incorrecte")
 
+
+
+
+
 def struct_nom_fichier(nom_fichier):
     if str(type(nom_fichier)) == "<class 'pandas.core.frame.DataFrame'>" and list(nom_fichier) == ['Interaction',
-        'Sommet']or list(df.columns) == ['Sommet', 'Interaction']:
+        'Sommet']or list(nom_fichier) == ['Sommet', 'Interaction']:
         print('Bon format de fichier')
     else:
         print("Le fichier doit être un DataFrame Pandas avec au moins deux colonnes nommées Sommet et Interaction")
+
+def is_interaction_file(fichier_interaction):
+    is_dataframe = str(type(fichier_interaction)) == "<class 'pandas.core.frame.DataFrame'>"
+
+    got_Sommet = False
+    got_Interaction = False
+    for a in list(nom_fichier):
+        if a == 'Interaction':
+            got_Interaction = True
+        if a == 'Sommet':
+            got_Sommet = True
+    have_columns = got_Sommet and got_Interaction
+
+    is_empty = fichier_interaction.empty
+
 
 
 def test_read_interaction_file_list():
