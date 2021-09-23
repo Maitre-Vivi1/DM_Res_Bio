@@ -21,12 +21,13 @@ with open('Graph_Inter_Vivien.txt', 'w') as file:
 
 # Question 2.1
 
+# Travail avec un fichier tabulé / DataFrame
 import pandas as pd
 
-data = pd.read_csv('C:\\Users\\vivi1\\Desktop\\Master BIS\\Réseaux bio\\Human_HighQuality.txt', sep='\t')
-data.columns = ['Sommet', 'Interaction']
+# On charge le fichier correspondant au travail demandé dans l'environnement de travail en précisant le nom des deux colonnes
+Human_HighQuality = pd.read_csv('Human_HighQuality.txt', sep='\t', header=0, names=['Sommet','Interaction'])
 
-
+# Construction de la fonction permettant de décrire les intéractions entre protéines
 def read_interaction_file_dict(nom_fichier):
     dictionnaire = {}
     for i in range(1,len(nom_fichier)):
