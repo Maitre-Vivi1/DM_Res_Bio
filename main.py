@@ -37,5 +37,22 @@ def read_interaction_file_dict(nom_fichier):
 
     return dictionnaire
 
-read_interaction_file_dict(data)
 
+# Question structure 2
+def read_interaction_file_list(data):
+    res_list = []
+    for i in range(len(data)):
+        res1 = [data.Sommet[i], data.Interaction[i]]
+        res2 = [data.Interaction[i], data.Sommet[i]]
+        if res1 not in res_list and res2 not in res_list:
+            res_list.append(res1)
+        pass
+    return res_list
+
+read_interaction_file_dict(data)
+read_interaction_file_list(Human_HighQuality)
+
+
+#Question structure 3
+def read_interaction_fiile_mat():
+    pass
