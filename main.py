@@ -47,6 +47,15 @@ def read_interaction_file_dict(nom_fichier):
             dico[nom_fichier.Sommet[a]] = nom_fichier.Interaction[a]
     return dico
 
+def read_interaction_file_list(data):
+    res_list = []
+    for i in range(len(data)):
+        res1 = [data.Sommet[i], data.Interaction[i]]
+        res2 = [data.Interaction[i], data.Sommet[i]]
+        if res1 not in res_list and res2 not in res_list:
+            res_list.append(res1)
+        pass
+    return res_list
 
 read_interaction_file_dict(Human_HighQuality)
 
