@@ -42,4 +42,12 @@ def struct_nom_fichier(nom_fichier):
         print("Le fichier doit être un DataFrame Pandas avec au moins deux colonnes nommées Sommet et Interaction")
 
 
+def test_read_interaction_file_list():
+    if len(df) == len(read_interaction_file_list(df)) and read_interaction_file_list(df) == [['Vivien', 'Inter1'],
+ ['guy', 'Inter2'], ['Vivien', 'Inter3'], ['Vivien', 'Inter4'], ['Guy', 'Inter5'], ['Guy', 'Inter6']]:
+        print("Liste cohérente et de bonne longueur")
+    else:
+        print("mauvaise longueur ou liste incohérente")
 
+
+        
