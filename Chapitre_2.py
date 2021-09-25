@@ -31,3 +31,23 @@ fichier).
 def clean_interactome(nom_fichier):
     graph = read_interactions_file(nom_fichier)
     return graph
+
+
+# Question 2.2.1
+def get_degree(file, prot):
+    graph = read_interactions_file(file)
+    return len(graph[0][prot])
+
+
+# Question 2.2.2
+"""
+Écrire une fonction get_max_degree(file) qui renvoie le nom de la protéine de degré
+maximal ainsi que le degré de cette protéine.
+"""
+
+
+def get_max_degree(file):
+    compteur = []
+    for i in file.Sommet:
+        compteur.append(get_degree(file, i))
+    indice = compteur.index(max(compteur))
