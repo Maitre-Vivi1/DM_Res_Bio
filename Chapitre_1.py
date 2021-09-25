@@ -33,23 +33,25 @@ Human_HighQuality = pd.read_csv('Human_HighQuality.txt', sep='\t', header=0, nam
 
 # fonction utilisée afin de délister les éléments
 def flatten(d):
- v = [[i] if not isinstance(i, list) else flatten(i) for i in d]
- return [i for b in v for i in b]
+    v = [[i] if not isinstance(i, list) else flatten(i) for i in d]
+    return [i for b in v for i in b]
 
 
 # Construction de la fonction permettant de décrire les intéractions entre protéines
 def read_interaction_file_dict(nom_fichier):
-    dico = {} # Initialisation du dictionnaire
+    dico = {}  # Initialisation du dictionnaire
     for a in range(0, len(nom_fichier)):
         try:
             if len(dico[nom_fichier.Sommet[a]]) > 0:
                 dico[nom_fichier.Sommet[a]] = flatten([dico[nom_fichier.Sommet[a]], nom_fichier.Interaction[a]])
                 pass
-        except:
+        except KeyError:
             dico[nom_fichier.Sommet[a]] = nom_fichier.Interaction[a]
     return dico
 
+
 read_interaction_file_dict(Human_HighQuality)
+
 
 def read_interaction_file_list(data):
     res_list = []
@@ -61,16 +63,17 @@ def read_interaction_file_list(data):
         pass
     return res_list
 
+
 read_interaction_file_list(Human_HighQuality)
 
 
 # TODO : Trop long :O
 # Question 1.2.3 structure 3
 def read_interaction_file_mat(data):
-    list_sommet = list(data.Sommet[data.Sommet.duplicated()==False])
-    list_interaction = list(data.Interaction[data.Interaction.duplicated()==False])
+    list_sommet = list(data.Sommet[data.Sommet.duplicated() is False])
+    list_interaction = list(data.Interaction[data.Interaction.duplicated() is False])
     res_mat = pd.DataFrame(numpy.zeros((len(list_interaction), len(list_sommet)), dtype=int),
-                               index=list_interaction, columns=list_sommet)
+                           index=list_interaction, columns=list_sommet)
     res_list = []
     for i in range(len(data)):
         res = [data.Sommet[i], data.Interaction[i]]
@@ -79,8 +82,9 @@ def read_interaction_file_mat(data):
         for interaction in list_interaction:
             if [sommet, interaction] in res_list:
                 res_mat.loc[interaction][sommet] = 1
-    l_som =  list(res_mat.columns)
+    l_som = list(res_mat.columns)
     return res_mat, l_som
+
 
 read_interaction_file_mat(Human_HighQuality)
 
@@ -91,21 +95,11 @@ def read_interactions_file(nom_fichier):
     d_int = read_interaction_file_dict(nom_fichier)
     l_int = read_interaction_file_list(nom_fichier)
     mat = read_interaction_file_mat(nom_fichier)
-    m_int = mat[1]
-    l_som = mat[2]
-    return(d_int, l_int, m_int, l_som)
+    m_int = mat[0]
+    l_som = mat[1]
+    return d_int, l_int, m_int, l_som
 
 # Question 2.5
 
 # On pourrait se contenter de seulement le disctionnaire / la liste ou bien la matrice et sa liste de sommets
 # puisque ces objets caractérisent tous complétement le graphe d'intéraction
-
-
-
-
-
-
-
-
-
-
