@@ -36,18 +36,46 @@ def clean_interactome(nom_fichier):
 # Question 2.2.1
 def get_degree(file, prot):
     graph = read_interactions_file(file)
-    return len(graph[0][prot])
+    if type(graph[0][prot]) == str:
+        degree = 1
+    else:
+        degree = len(graph[0][prot])
+    return degree
 
 
 # Question 2.2.2
-"""
-Écrire une fonction get_max_degree(file) qui renvoie le nom de la protéine de degré
-maximal ainsi que le degré de cette protéine.
-"""
-
-
 def get_max_degree(file):
     compteur = []
     for i in file.Sommet:
         compteur.append(get_degree(file, i))
     indice = compteur.index(max(compteur))
+    nom_prot = file.Sommet[indice]
+    deg_prot = max(compteur)
+    return nom_prot, deg_prot
+
+
+# Question 2.2.3
+def get_ave_degree(file):
+    compteur = []
+    for i in file.Sommet:
+        compteur.append(get_degree(file, i))
+    return sum(compteur)/len(file.Sommet)
+
+
+# Question 2.2.4
+def count_degree(file, deg):
+    compteur = 0
+    for i in file.Sommet:
+        if get_degree(file, i) == deg:
+            compteur += 1
+    return compteur
+
+
+# Question 2.2.5
+def histogram_degree(file, dmin, dmax):
+    compteur = []
+    for d in range(dmin, dmax + 1):
+        compteur.append(count_degree(file, d))
+    l = list(range(dmin, dmax + 1))
+    for i in l:
+        print(str(i) + " : " + "*" * compteur[i])
