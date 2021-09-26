@@ -9,6 +9,7 @@ from Chapitre_1 import is_interaction_file
 class TestChapitre1Fichier(unittest.TestCase):
 
     def setUp(self):
+        """Factorise les éléments utilisés pour les tests afin de ne pas se répéter"""
         self.df = pd.DataFrame(
             {'Sommet': ["ZW10_HUMAN", "ZWINT_HUMAN", "ZY11B_HUMAN", "ZYX_HUMAN", "ZYX_HUMAN", "ZN384_HUMAN"],
              'Interaction': ["ZWINT_HUMAN", "ZW10_HUMAN", "ELOC_HUMAN", "NEBL_HUMAN", "ZN384_HUMAN", "ZYX_HUMAN"]})
@@ -23,6 +24,7 @@ class TestChapitre1Fichier(unittest.TestCase):
              'Interaction': ["ZW10_HUMAN", "ELOC_HUMAN", "NEBL_HUMAN", "ZN384_HUMAN", "ZYX_HUMAN"]}
 
     def test_is_interaction(self):
+        """Test si utiliser un fichier incomplet / vide / mal nommé / de mauvais type est possible"""
         self.assertTrue(is_interaction_file(self.df))
         self.assertFalse(is_interaction_file(self.df2))
         self.assertFalse(is_interaction_file(self.df3))
