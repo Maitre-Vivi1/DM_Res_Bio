@@ -31,9 +31,11 @@ class TestChapitre1Function(unittest.TestCase):
 
     def test_read_interaction_file_mat(self):
         """Test la bonne taille de la matrice d'adjacence"""
-        self.assertTrue(len(self.interaction_mat[0]) == len(set(self.df.Interaction)),
-                        "Autant de lignes dans la matrice que d'intéractions")
-        self.assertTrue(len(self.interaction_mat[0].columns) == len(set(self.df.Sommet)),
+        list_sommets = pd.concat([self.df.Sommet, self.df.Interaction])
+        list_sommets = sorted(list(dict.fromkeys(list_sommets)))
+        self.assertTrue(len(self.interaction_mat[0]) == len(list_sommets),
+                        "Autant de lignes dans la matrice que de sommets")
+        self.assertTrue(len(self.interaction_mat[0].columns) == len(list_sommets),
                         "Autant de colonnes dans la matrice que de sommets")
 
     def test_read_interaction_file(self):
