@@ -1,34 +1,14 @@
-# TODO : Commenter / restructurer le code suivant consignes
-
 # Travail avec un fichier tabulé / DataFrame
 import pandas as pd
 # Pour l'écriture du graph d'intéractions
-import json
 import numpy
-
-# Question 1.1
-
-Graph_Inter_Vivien = {
-    "A": ["B", "E"],
-    "B": ["A", "C", "F"],
-    "C": ["B", "F", "I"],
-    "D": ["F"],
-    "E": ["A"],
-    "F": ["B", "C", "D"],
-    "G": ["J"],
-    "H": ["J"],
-    "I": ["C", "J"],
-    "J": ["G", "H", "I"]
-}
-
-with open('Graph_Inter_Vivien.txt', 'w') as file:
-    file.write(json.dumps(Graph_Inter_Vivien))
 
 # Question 2.1
 
 # On charge le fichier correspondant au travail demandé dans l'environnement de travail en précisant
 # le nom des deux colonnes
-Human_HighQuality = pd.read_csv('Human_HighQuality.txt', sep='\t', header=0, names=['Sommet', 'Interaction'])
+Human_HighQuality = pd.read_csv('../DM_Res_Bio/Human_HighQuality.txt', sep='\t', header=0,
+                                names=['Sommet', 'Interaction'])
 
 
 # fonction utilisée afin de délister les éléments
@@ -50,7 +30,7 @@ def read_interaction_file_dict(nom_fichier):
     return dico
 
 
-read_interaction_file_dict(Human_HighQuality)
+# read_interaction_file_dict(Human_HighQuality)
 
 
 def read_interaction_file_list(data):
@@ -64,14 +44,14 @@ def read_interaction_file_list(data):
     return res_list
 
 
-read_interaction_file_list(Human_HighQuality)
+# read_interaction_file_list(Human_HighQuality)
 
 
 # TODO : Trop long :O
 # Question 1.2.3 structure 3
 def read_interaction_file_mat(data):
-    list_sommet = list(data.Sommet[data.Sommet.duplicated() is False])
-    list_interaction = list(data.Interaction[data.Interaction.duplicated() is False])
+    list_sommet = list(data.Sommet[data.Sommet.duplicated() == False])
+    list_interaction = list(data.Interaction[data.Interaction.duplicated() == False])
     res_mat = pd.DataFrame(numpy.zeros((len(list_interaction), len(list_sommet)), dtype=int),
                            index=list_interaction, columns=list_sommet)
     res_list = []
@@ -86,7 +66,7 @@ def read_interaction_file_mat(data):
     return res_mat, l_som
 
 
-read_interaction_file_mat(Human_HighQuality)
+# read_interaction_file_mat(Human_HighQuality)
 
 
 # Question 2.4
@@ -99,7 +79,21 @@ def read_interactions_file(nom_fichier):
     l_som = mat[1]
     return d_int, l_int, m_int, l_som
 
+
 # Question 2.5
 
 # On pourrait se contenter de seulement le disctionnaire / la liste ou bien la matrice et sa liste de sommets
 # puisque ces objets caractérisent tous complétement le graphe d'intéraction
+
+
+# Question 2.7
+def is_interaction_file(nom_fichier):
+    file_type = str(type(nom_fichier)) == "<class 'pandas.core.frame.DataFrame'>"
+    file_columns = 'Sommet' in nom_fichier.columns and 'Interaction' in nom_fichier.columns
+    file_empty = nom_fichier.empty is False
+    file_inter_egal_sommet = len(nom_fichier.Sommet) == len(nom_fichier.Interaction)
+
+    if file_type and file_columns and file_empty and file_inter_egal_sommet:
+        return True
+    else:
+        return False

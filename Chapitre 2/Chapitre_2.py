@@ -1,9 +1,6 @@
+import sys
+sys.path.append("../DM_Res_Bio/Chapitre 1")
 from Chapitre_1 import read_interactions_file, flatten
-import pandas as pd
-
-df = pd.DataFrame({'Sommet': ["ZW10_HUMAN", "ZWINT_HUMAN", "ZY11B_HUMAN", "ZYX_HUMAN", "ZYX_HUMAN", "ZN384_HUMAN"],
-                  'Interaction': ["ZWINT_HUMAN", "ZW10_HUMAN", "ELOC_HUMAN", "NEBL_HUMAN", "ZN384_HUMAN", "ZYX_HUMAN"]})
-
 
 # Question 2.1.1
 def count_vertices(nom_fichier):
