@@ -52,8 +52,7 @@ def read_interaction_file_list(data):
 def read_interaction_file_mat(data):
     list_sommets = pd.concat([data.Sommet, data.Interaction])
     list_sommets = sorted(list(dict.fromkeys(list_sommets)))
-    res_mat = pd.DataFrame(numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int),
-                           index=list_sommets, columns=list_sommets)
+    res_mat = numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int)
     res_list = []
     for i in range(len(data)):
         res = [data.Sommet[i], data.Interaction[i]]
@@ -61,8 +60,10 @@ def read_interaction_file_mat(data):
     for sommet1 in list_sommets:
         for sommet2 in list_sommets[list_sommets.index(sommet1)+1:]:
             if [sommet1, sommet2] in res_list or [sommet2, sommet1] in res_list:
-                res_mat.loc[sommet1][sommet2] = 1
-                res_mat.loc[sommet2][sommet1] = 1
+                index_sommet1 =list_sommets.index(sommet1)
+                index_sommet2 = list_sommets.index(sommet2)
+                res_mat[index_sommet1, index_sommet2] = 1
+                res_mat[index_sommet2, index_sommet1] = 1
     return res_mat, list_sommets
 
 
