@@ -1,6 +1,8 @@
 import unittest
+import sys
+import pandas as pd
 
-sys.path.append("../DM_Res_Bio/Chapitre 2")
+sys.path.append("../DM_Res_Bio/Partie_2")
 from Chapitre_2 import count_vertices, count_edges, get_degree, get_max_degree, get_ave_degree, count_degree, \
     histogram_degree
 
@@ -17,7 +19,7 @@ class TestFunction(unittest.TestCase):
         self.max_degree = get_max_degree(self.df)
         self.average_degree = get_ave_degree(self.df)
         self.count_degree = count_degree(self.df, 1)
-        self.hist = histogram_degree(df, 0, 5)
+        self.hist = histogram_degree(self.df, 0, 5)
 
     def test_count_vertices(self):
         self.assertGreaterEqual(self.vertices, 0,
@@ -32,9 +34,9 @@ class TestFunction(unittest.TestCase):
                          "Calcul le bon degré")
 
     def test_max_degree(self):
-        self.assertGreaterEqual(self.max_degree[0], 0,
+        self.assertGreaterEqual(self.max_degree[1], 0,
                                 "Nombre positif")
-        self.assertTrue(self.max_degree[1] != None,
+        self.assertTrue(self.max_degree[0] != None,
                         "La protéine est nommée")
 
     def test_average_degree(self):
@@ -44,6 +46,7 @@ class TestFunction(unittest.TestCase):
     def test_count_degree(self):
         self.assertEqual(self.count_degree, 4,
                          "Bon nombre de protéine de degré 1")
+
 
 if __name__ == '__Chapitre_2__':
     unittest.main()

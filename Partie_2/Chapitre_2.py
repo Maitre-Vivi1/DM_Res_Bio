@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../DM_Res_Bio/Chapitre 1")
+sys.path.append("C:/Users/vivi1/PycharmProjects/DM_Res_Bio/Partie_1")
 from Chapitre_1 import read_interactions_file, flatten
 
 # Question 2.1.1
@@ -14,7 +14,7 @@ def count_edges(nom_fichier):
     return len(flatten(graph[0].values()))
 
 
-# Question 2.1.3
+# TODO Question 2.1.3
 """
 Écrire une fonction clean_interactome(filein, fileout) qui lit un fichier contenant un graphe d’interactions
 protéine-protéine et y enlève (i) toutes les interactions

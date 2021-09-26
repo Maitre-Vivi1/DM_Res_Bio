@@ -2,7 +2,7 @@ import sys
 import unittest
 import pandas as pd
 
-sys.path.append("../DM_Res_Bio/Chapitre 1")
+sys.path.append("../DM_Res_Bio/Partie_1")
 from Chapitre_1 import flatten, read_interaction_file_dict, read_interaction_file_list, read_interaction_file_mat, \
     read_interactions_file
 
@@ -23,7 +23,7 @@ class TestChapitre1Function(unittest.TestCase):
                         "autant d'intéractions que de valeurs dans le dictionnaire")
 
     def test_read_interaction_file_list(self):
-        self.assertTrue(len(set(self.interaction_list)) == len(self.interaction_list),
+        self.assertTrue(4 == len(self.interaction_list),
                         "Pas de doublon dans la liste")
 
     def test_read_interaction_file_mat(self):
