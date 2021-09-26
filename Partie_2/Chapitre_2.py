@@ -1,5 +1,5 @@
 import sys
-sys.path.append("C:/Users/vivi1/PycharmProjects/DM_Res_Bio/Partie_1")
+sys.path.append("../DM_Res_Bio/Partie_1")
 from Chapitre_1 import read_interactions_file, flatten
 
 
