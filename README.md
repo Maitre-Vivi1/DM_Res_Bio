@@ -1,3 +1,3 @@
-# DM_Res_Bio
+# DM Reseaux Biologiques
 
 Groupe : Vivien Dupont & Guy Fleury Iradukunda
