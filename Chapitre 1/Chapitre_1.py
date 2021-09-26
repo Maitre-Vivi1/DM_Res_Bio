@@ -50,20 +50,20 @@ def read_interaction_file_list(data):
 # TODO : Trop long :O
 # Question 1.2.3 structure 3
 def read_interaction_file_mat(data):
-    list_sommet = list(data.Sommet[data.Sommet.duplicated() == False])
-    list_interaction = list(data.Interaction[data.Interaction.duplicated() == False])
-    res_mat = pd.DataFrame(numpy.zeros((len(list_interaction), len(list_sommet)), dtype=int),
-                           index=list_interaction, columns=list_sommet)
+    list_sommets = pd.concat([data.Sommet, data.Interaction])
+    list_sommets = sorted(list(dict.fromkeys(list_sommets)))
+    res_mat = pd.DataFrame(numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int),
+                           index=list_sommets, columns=list_sommets)
     res_list = []
     for i in range(len(data)):
         res = [data.Sommet[i], data.Interaction[i]]
         res_list.append(res)
-    for sommet in list_sommet:
-        for interaction in list_interaction:
-            if [sommet, interaction] in res_list:
-                res_mat.loc[interaction][sommet] = 1
-    l_som = list(res_mat.columns)
-    return res_mat, l_som
+    for sommet1 in list_sommets:
+        for sommet2 in list_sommets[list_sommets.index(sommet1)+1:]:
+            if [sommet1, sommet2] in res_list or [sommet2, sommet1] in res_list:
+                res_mat.loc[sommet1][sommet2] = 1
+                res_mat.loc[sommet2][sommet1] = 1
+    return res_mat, list_sommets
 
 
 # read_interaction_file_mat(Human_HighQuality)
