@@ -2,6 +2,7 @@
 Partie_1/__pycache__/
 Partie_2/__pycache__/
 Partie_3/__pycache__/
+.idea
 *.py[cod]
 *$py.class
 
