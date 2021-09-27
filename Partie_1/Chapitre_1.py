@@ -7,14 +7,26 @@ import numpy
 
 
 def flatten(d):
-    """Permet de désemboiter des éléments tels que les listes ou les dictionnaires"""
+    """
+    Permet de désemboiter des éléments tels que les listes ou les dictionnaires
+    :param d:
+    :type d:
+    :return:
+    :rtype:
+    """
     v = [[i] if not isinstance(i, list) else flatten(i) for i in d]
     return [i for b in v for i in b]
 
 
 # Question 1.2.1
 def read_interaction_file_dict(file):
-    """Renvoie le dictionnaire associé au graph d'intéraction entre protéines"""
+    """
+    Renvoie le dictionnaire associé au graph d'intéraction entre protéines
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     dico_dict = {}  # Initialisation du dictionnaire
     for a in range(0, len(file)):
         try:
@@ -28,7 +40,13 @@ def read_interaction_file_dict(file):
 
 # Question 1.2.2
 def read_interaction_file_list(file):
-    """Renvoie la liste associée au graph d'intéraction entre protéines"""
+    """
+    Renvoie la liste associée au graph d'intéraction entre protéines
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     res_list = []
     for i in range(len(file)):
         res1 = [file.Sommet[i], file.Interaction[i]]
@@ -42,8 +60,13 @@ def read_interaction_file_list(file):
 # TODO : Tourne trop lentement :O
 # Question 1.2.3
 def read_interaction_file_mat(file):
-    """Renvoie la matrice d'adjacence associée au graph d'intéraction entre protéines ainsi que la liste
-    ordonnée des sommets"""
+    """
+    Renvoie la matrice d'adjacence associée au graph d'intéraction entre protéines ainsi que la liste
+    ordonnée des sommets
+    :param file:
+    :type file:
+    :return:
+    :rtype: """
     list_sommets = pd.concat([file.Sommet, file.Interaction])
     list_sommets = sorted(list(dict.fromkeys(list_sommets)))
     res_mat = pd.DataFrame(numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int),
@@ -62,7 +85,13 @@ def read_interaction_file_mat(file):
 
 # Question 1.2.4
 def read_interactions_file(file):
-    """Renvoie l'ensemble des méthodes utilisées pour décrire un graph"""
+    """
+    Renvoie l'ensemble des méthodes utilisées pour décrire un graph
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     d_int = read_interaction_file_dict(file)
     l_int = read_interaction_file_list(file)
     mat = read_interaction_file_mat(file)
@@ -78,9 +107,14 @@ puisque ces objets caractérisent tous complétement le graphe d'intéraction"""
 
 # Question 1.2.7
 def is_interaction_file(file):
-    """Permet de savoir si le fichier utilisé est au bon format
+    """
+    Permet de savoir si le fichier utilisé est au bon format
     Le format utilisé est un DataFrame pandas dont deux de ses colonnes
-    s'appelent Sommet et Interaction"""
+    s'appelent Sommet et Interaction
+    :param file:
+    :type file:
+    :return:
+    :rtype: """
     try:
         file_type_bool = str(type(file)) == "<class 'pandas.core.frame.DataFrame'>"
         file_columns_bool = 'Sommet' in file.columns and 'Interaction' in file.columns

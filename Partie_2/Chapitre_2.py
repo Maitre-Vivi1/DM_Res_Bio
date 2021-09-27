@@ -5,14 +5,26 @@ from Chapitre_1 import read_interactions_file, flatten
 
 # Question 2.1.1
 def count_vertices(file):
-    """Compte le nombre de sommet du graphe en se servant de sa représentation en dictionnaire"""
+    """
+    Compte le nombre de sommet du graphe en se servant de sa représentation en dictionnaire
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     graph_tuple = read_interactions_file(file)
     return len(graph_tuple[0])
 
 
 #  Question 2.1.2
 def count_edges(file):
-    """Compte le nombre d'arrêtes d'un graphe en se servant de sa représentation en dictionnaire"""
+    """
+    Compte le nombre d'arrêtes d'un graphe en se servant de sa représentation en dictionnaire
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     graph_tuple = read_interactions_file(file)
     return len(flatten(graph_tuple[0].values()))
 
@@ -30,13 +42,28 @@ fichier).
 
 # Question 2.1.3
 def clean_interactome(file):
+    """
+
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     graph_tuple = read_interactions_file(file)
     return graph_tuple
 
 
 # Question 2.2.1
 def get_degree(file, prot_str):
-    """Calcul le nombre d'interaction de la protéine choisie"""
+    """
+    Calcul le nombre d'interaction de la protéine choisie
+    :param file:
+    :type file:
+    :param prot_str:
+    :type prot_str:
+    :return:
+    :rtype:
+    """
     graph_tuple = read_interactions_file(file)
     if type(graph_tuple[0][prot_str]) == str:
         degree = 1
@@ -47,7 +74,13 @@ def get_degree(file, prot_str):
 
 # Question 2.2.2
 def get_max_degree(file):
-    """Calcul le degré maximal obtenu par au moins une des protéines du graphe"""
+    """
+    Calcul le degré maximal obtenu par au moins une des protéines du graphe
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     count_list = []
     for i in file.Sommet:
         count_list.append(get_degree(file, i))
@@ -59,7 +92,13 @@ def get_max_degree(file):
 
 # Question 2.2.3
 def get_ave_degree(file):
-    """Calcul le degré moyen des protéines du graphe"""
+    """
+    Calcul le degré moyen des protéines du graphe
+    :param file:
+    :type file:
+    :return:
+    :rtype:
+    """
     count_list = []
     for i in file.Sommet:
         count_list.append(get_degree(file, i))
@@ -68,7 +107,15 @@ def get_ave_degree(file):
 
 # Question 2.2.4
 def count_degree(file, deg_int):
-    """Calcul le nombre de protéines étant du degré sélectionné"""
+    """
+    Calcul le nombre de protéines étant du degré sélectionné
+    :param file:
+    :type file:
+    :param deg_int:
+    :type deg_int:
+    :return:
+    :rtype:
+    """
     count_int = 0
     for i in file.Sommet:
         if get_degree(file, i) == deg_int:
@@ -78,7 +125,15 @@ def count_degree(file, deg_int):
 
 # Question 2.2.5
 def histogram_degree(file, dmin, dmax):
-    """Renvoie l'histgramme du nombre de protéine de certains degré suivant des bornes indiquées"""
+    """
+    Renvoie l'histgramme du nombre de protéine de certains degré suivant des bornes indiquées
+    :param file:
+    :type file:
+    :param dmin:
+    :type dmin:
+    :param dmax:
+    :type dmax:
+    """
     count_list = []
     for d in range(dmin, dmax + 1):
         count_list.append(count_degree(file, d))
