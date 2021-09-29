@@ -10,9 +10,9 @@ def flatten(d):
     """
     Permet de désemboiter des éléments tels que les listes ou les dictionnaires
     :param d:
-    :type d:
+    :type d: list
     :return:
-    :rtype:
+    :rtype: list
     """
     v = [[i] if not isinstance(i, list) else flatten(i) for i in d]
     return [i for b in v for i in b]
@@ -57,7 +57,6 @@ def read_interaction_file_list(file):
     return res_list
 
 
-# TODO : Tourne trop lentement :O
 # Question 1.2.3
 def read_interaction_file_mat(file):
     """
@@ -69,17 +68,11 @@ def read_interaction_file_mat(file):
     :rtype: """
     list_sommets = pd.concat([file.Sommet, file.Interaction])
     list_sommets = sorted(list(dict.fromkeys(list_sommets)))
-    res_mat = pd.DataFrame(numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int),
-                           index=list_sommets, columns=list_sommets)
-    res_list = []
-    for i in range(len(file)):
-        res = [file.Sommet[i], file.Interaction[i]]
-        res_list.append(res)
-    for sommet1 in list_sommets:
-        for sommet2 in list_sommets[list_sommets.index(sommet1)+1:]:
-            if [sommet1, sommet2] in res_list or [sommet2, sommet1] in res_list:
-                res_mat.loc[sommet1][sommet2] = 1
-                res_mat.loc[sommet2][sommet1] = 1
+    res_mat = numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int)
+    res_list = read_interaction_file_list(file)
+    for interaction in res_list:
+        res_mat[list_sommets.index(interaction[0])][list_sommets.index(interaction[1])] = 1
+        res_mat[list_sommets.index(interaction[1])][list_sommets.index(interaction[0])] = 1
     return res_mat, list_sommets
 
 

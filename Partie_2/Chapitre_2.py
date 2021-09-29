@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../DM_Res_Bio/Partie_1")
-from Chapitre_1 import read_interactions_file, flatten
+from Chapitre_1 import *
 
 
 # Question 2.1.1
@@ -12,8 +12,8 @@ def count_vertices(file):
     :return:
     :rtype:
     """
-    graph_tuple = read_interactions_file(file)
-    return len(graph_tuple[0])
+    graph_tuple = read_interaction_file_mat(file)
+    return len(graph_tuple[1])
 
 
 #  Question 2.1.2
