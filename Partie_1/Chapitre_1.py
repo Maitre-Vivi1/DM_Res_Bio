@@ -22,10 +22,10 @@ def flatten(d):
 def read_interaction_file_dict(file):
     """
     Renvoie le dictionnaire associé au graph d'intéraction entre protéines
-    :param file:
-    :type file:
-    :return:
-    :rtype:
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: un dictionnaire de ce graphe où chaque sommet est prise comme clé
+    :rtype: dict
     """
     dico_dict = {}  # Initialisation du dictionnaire
     for a in range(0, len(file)):
@@ -42,10 +42,10 @@ def read_interaction_file_dict(file):
 def read_interaction_file_list(file):
     """
     Renvoie la liste associée au graph d'intéraction entre protéines
-    :param file:
-    :type file:
-    :return:
-    :rtype:
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: une liste de graphe sans interaction en double
+    :rtype: list
     """
     res_list = []
     for i in range(len(file)):
@@ -62,10 +62,11 @@ def read_interaction_file_mat(file):
     """
     Renvoie la matrice d'adjacence associée au graph d'intéraction entre protéines ainsi que la liste
     ordonnée des sommets
-    :param file:
-    :type file:
-    :return:
-    :rtype: """
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: une matrice d'adjascence de ce graphe et une liste ordonnée des sommets
+    :rtype: tuple
+    """
     list_sommets = pd.concat([file.Sommet, file.Interaction])
     list_sommets = sorted(list(dict.fromkeys(list_sommets)))
     res_mat = numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int)
@@ -80,10 +81,10 @@ def read_interaction_file_mat(file):
 def read_interactions_file(file):
     """
     Renvoie l'ensemble des méthodes utilisées pour décrire un graph
-    :param file:
-    :type file:
-    :return:
-    :rtype:
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: tuple contenant 3 structures de graphe(dictionnaire, liste, matrice) et une liste ordonnée des sommets
+    :rtype:tuple
     """
     d_int = read_interaction_file_dict(file)
     l_int = read_interaction_file_list(file)
@@ -104,10 +105,11 @@ def is_interaction_file(file):
     Permet de savoir si le fichier utilisé est au bon format
     Le format utilisé est un DataFrame pandas dont deux de ses colonnes
     s'appelent Sommet et Interaction
-    :param file:
-    :type file:
-    :return:
-    :rtype: """
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: True si le fichier est au bon format, False sinon
+    :rtype: bool
+    """
     try:
         file_type_bool = str(type(file)) == "<class 'pandas.core.frame.DataFrame'>"
         file_columns_bool = 'Sommet' in file.columns and 'Interaction' in file.columns

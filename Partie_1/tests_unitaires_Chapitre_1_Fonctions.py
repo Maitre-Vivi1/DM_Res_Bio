@@ -35,7 +35,7 @@ class TestChapitre1Function(unittest.TestCase):
         list_sommets = sorted(list(dict.fromkeys(list_sommets)))
         self.assertTrue(len(self.interaction_mat[0]) == len(list_sommets),
                         "Autant de lignes dans la matrice que de sommets")
-        self.assertTrue(len(self.interaction_mat[0].columns) == len(list_sommets),
+        self.assertTrue(len(self.interaction_mat[0][0]) == len(list_sommets),
                         "Autant de colonnes dans la matrice que de sommets")
 
     def test_read_interaction_file(self):
