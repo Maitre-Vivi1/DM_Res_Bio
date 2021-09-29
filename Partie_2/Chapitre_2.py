@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../DM_Res_Bio/Partie_1")
-from Partie_1.Chapitre_1 import *
+from Chapitre_1 import read_interactions_file, flatten
 
 
 # Question 2.1.1
@@ -29,22 +29,28 @@ def count_edges(file):
     return len(flatten(graph_tuple[0].values()))
 
 
+# TODO Question 2.1.3
+"""
+Écrire une fonction clean_interactome(filein, fileout) qui lit un fichier contenant un graphe d’interactions
+protéine-protéine et y enlève (i) toutes les interactions
+redondantes, et (ii) tous les homo-dimères. Le graphe obtenu sera écrit dans un nouveau
+fichier au même format que le format de départ (posez-vous la question de savoir si ça
+ne vaut pas le coup d’écrire une ou plusieurs fonctions d’écriture d’un graphe dans un
+fichier).
+"""
+
+
 # Question 2.1.3
-def clean_interactome(filein, fileout):
+def clean_interactome(file):
     """
 
-    :param filein:
-    :type filein:
-    :param fileout:
-    :type fileout:
+    :param file:
+    :type file:
     :return:
     :rtype:
     """
-    list_graph = read_interaction_file_list(filein)
-    list_graph = ["\t".join(map(str, elem)) for elem in list_graph]
-    list_graph.insert(0,len(list_graph))
-    with open(fileout, "w") as fichier:
-        fichier.write("\n".join(map(str, list_graph)))
+    graph_tuple = read_interactions_file(file)
+    return graph_tuple
 
 
 # Question 2.2.1
