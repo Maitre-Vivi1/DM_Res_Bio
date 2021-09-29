@@ -1,9 +1,16 @@
-# Travail avec un fichier tabulé / DataFrame
 import pandas as pd
 import numpy
 
-# Human_HighQuality = pd.read_csv('../DM_Res_Bio/Human_HighQuality.txt', sep='\t', header=0,
-#                                  names=['Sommet', 'Interaction'])
+Human_HighQuality = pd.read_csv('../DM_Res_Bio/Human_HighQuality.txt', sep='\t', header=0,
+                                 names=['Sommet', 'Interaction'])
+
+
+# Initialisation
+"""
+L'ensemble des fonctions du DM utilisent un DataFrame pandas afin de traiter au mieux les données. Les différents
+fichiers d'interactions entre protéines doivent alors respecter certaines conditions résumées dans la fonction
+is_interaction_file et testées dans le fichier test correspondant : tests_unitaires_Chapitre_1_fichier.py
+"""
 
 
 def flatten(d):
