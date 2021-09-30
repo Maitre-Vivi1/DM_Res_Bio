@@ -44,6 +44,28 @@ def read_interaction_file_dict(file):
             dico_dict[file.Sommet[a]] = file.Interaction[a]
     return dico_dict
 
+# autre Proposition
+def read_interaction_file_dic(file):
+    dico_dict = {}
+    for i in range(len(file)):
+        if file.Sommet[i] not in dico_dict.keys() and file.Interaction[i] not in dico_dict.keys():
+            dico_dict[file.Sommet[i]] = [file.Interaction[i]]
+            dico_dict[file.Interaction[i]] = [file.Sommet[i]]
+        elif file.Sommet[i] in dico_dict.keys() and file.Interaction[i] not in dico_dict.keys():
+            if file.Interaction[i] not in dico_dict[file.Sommet[i]]:
+                dico_dict[file.Sommet[i]].append(file.Interaction[i])
+            dico_dict[file.Interaction[i]] = [file.Sommet[i]]
+        elif file.Interaction[i] in dico_dict.keys() and file.Sommet[i] not in dico_dict.keys():
+            if file.Sommet[i] not in dico_dict[file.Interaction[i]]:
+                dico_dict[file.Interaction[i]].append(file.Sommet[i])
+            dico_dict[file.Sommet[i]] = [file.Interaction[i]]
+        elif file.Interaction[i] in dico_dict.keys() and file.Sommet[i] in dico_dict.keys():
+            if file.Sommet[i] not in dico_dict[file.Interaction[i]]:
+                dico_dict[file.Interaction[i]].append(file.Sommet[i])
+            if file.Interaction[i] not in dico_dict[file.Sommet[i]]:
+                dico_dict[file.Sommet[i]].append(file.Interaction[i])
+    return dico_dict
+
 
 # Question 1.2.2
 def read_interaction_file_list(file):
