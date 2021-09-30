@@ -7,10 +7,10 @@ from Chapitre_1 import *
 def count_vertices(file):
     """
     Compte le nombre de sommet du graphe en se servant de sa représentation en dictionnaire
-    :param file:
-    :type file:
-    :return:
-    :rtype:
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: le nombre de sommets
+    :rtype: int
     """
     graph_tuple = read_interaction_file_mat(file)
     return len(graph_tuple[1])
@@ -20,10 +20,10 @@ def count_vertices(file):
 def count_edges(file):
     """
     Compte le nombre d'arrêtes d'un graphe en se servant de sa représentation en dictionnaire
-    :param file:
-    :type file:
-    :return:
-    :rtype:
+    :param file: tableau contenant un graphe
+    :type file: dataframe
+    :return: le nombre d'intéractions
+    :rtype: int
     """
     graph_tuple = read_interaction_file_list(file)
     return len(graph_tuple)
@@ -32,13 +32,14 @@ def count_edges(file):
 # Question 2.1.3
 def clean_interactome(filein, fileout):
     """
-
-    :param filein:
-    :type filein:
-    :param fileout:
-    :type fileout:
-    :return:
-    :rtype:
+    permet de nettoyer tous les intéractions redondantes et tous les homo-dimères
+    qui se trouve dans filein et stocke le résultat dans un fichier fileout
+    :param filein: tableau contenant un graphe
+    :type filein: dataframe
+    :param fileout: nom du fichier qu'on veut créer
+    :type fileout: str
+    :return: none
+    :rtype: none
     """
     list_graph = read_interaction_file_list(filein)
     list_graph = ["\t".join(map(str, elem)) for elem in list_graph]

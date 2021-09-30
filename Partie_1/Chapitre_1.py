@@ -13,39 +13,15 @@ is_interaction_file et testées dans le fichier test correspondant : tests_unita
 """
 
 
-def flatten(d):
-    """
-    Permet de désemboiter des éléments tels que les listes ou les dictionnaires
-    :param d:
-    :type d: list
-    :return:
-    :rtype: list
-    """
-    v = [[i] if not isinstance(i, list) else flatten(i) for i in d]
-    return [i for b in v for i in b]
-
-
 # Question 1.2.1
 def read_interaction_file_dict(file):
     """
-    Renvoie le dictionnaire associé au graph d'intéraction entre protéines
+    Renvoie le dictionnaire associé au graphe d'intéraction entre protéines
     :param file: tableau contenant un graphe
     :type file: dataframe
     :return: un dictionnaire de ce graphe où chaque sommet est prise comme clé
     :rtype: dict
     """
-    dico_dict = {}  # Initialisation du dictionnaire
-    for a in range(0, len(file)):
-        try:
-            if len(dico_dict[file.Sommet[a]]) > 0:
-                dico_dict[file.Sommet[a]] = flatten([dico_dict[file.Sommet[a]], file.Interaction[a]])
-                pass
-        except KeyError:
-            dico_dict[file.Sommet[a]] = file.Interaction[a]
-    return dico_dict
-
-# autre Proposition
-def read_interaction_file_dic(file):
     dico_dict = {}
     for i in range(len(file)):
         if file.Sommet[i] not in dico_dict.keys() and file.Interaction[i] not in dico_dict.keys():

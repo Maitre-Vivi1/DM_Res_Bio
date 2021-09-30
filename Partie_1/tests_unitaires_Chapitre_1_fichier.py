@@ -30,7 +30,3 @@ class TestChapitre1Fichier(unittest.TestCase):
         self.assertFalse(is_interaction_file(self.df3))
         self.assertFalse(is_interaction_file(self.df4))
         self.assertFalse(is_interaction_file(self.df5))
-
-
-if __name__ == '__Chapitre_1__':
-    unittest.main()
