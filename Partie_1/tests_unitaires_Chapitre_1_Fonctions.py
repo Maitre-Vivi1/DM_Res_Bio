@@ -47,3 +47,7 @@ class TestChapitre1Function(unittest.TestCase):
         """Test si toutes les sorties prévues sont bien renvoyées"""
         self.assertTrue(len(self.interaction_all) == 4,
                         "On doit renvoyer 4 éléments")
+
+
+if __name__ == '__Chapitre_1__':
+    unittest.main()

@@ -26,12 +26,12 @@ class TestFunction(unittest.TestCase):
         """Permet de tester le bon type de renvoi pour la fonction count_vertices"""
         self.assertGreaterEqual(self.vertices, 0,
                                 "Renvoi bien un nombre positif")
-    
+
     def test_count_edges(self):
         """Permet de tester le bon type de renvoi pour la fonction count_edges"""
         self.assertGreaterEqual(self.edges, 0,
                                 "Nombre d'arrêtes entier")
-        
+
     def test_get_degree(self):
         """Permet de tester si le calcul de get_degree est exact"""
         self.assertEqual(self.degree, sum(self.df.Sommet == self.df.Sommet[0]),
