@@ -12,7 +12,7 @@ from Chapitre_2 import *
 # Question 3.2.2
 
 
-class Interactome:
+class Interactome():
     def __init__(self, file):
         self.file = file
         self.int_list = self.read_interaction_file_list()
@@ -190,4 +190,18 @@ class Interactome:
             count_list.append(self.count_degree(d))
         l = list(range(dmin, dmax + 1))
         for i in l:
-            print(str(i) + " : " + "*" * count_list[i])
+            print(str(i) + " : " + "*" * count_list[i-dmin])
+
+    def density(self):
+        D = 2 * len(self.int_dict.keys()) / (len(self.int_dict.values()) * (len(self.int_dict.values()) -1))
+        return D
+
+    def clustering(self, prot):
+        count_int = 0
+        for prot_arrete in self.int_dict.get(prot):
+            count_int += self.get_degree(prot_arrete)
+        if count_int in [0,1]:
+            coeff = 0
+        else:
+            coeff = 2*self.get_degree(prot) / (count_int * (count_int - 1))
+        return coeff
