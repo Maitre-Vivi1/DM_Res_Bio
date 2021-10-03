@@ -134,4 +134,4 @@ def histogram_degree(file, dmin, dmax):
         count_list.append(count_degree(file, d))
     l = list(range(dmin, dmax + 1))
     for i in l:
-        print(str(i) + " : " + "*" * count_list[i])
+        print(str(i) + " : " + "*" * count_list[i-dmin])
