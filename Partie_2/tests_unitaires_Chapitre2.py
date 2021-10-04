@@ -26,12 +26,12 @@ class TestFunction(unittest.TestCase):
         """Permet de tester le bon type de renvoi pour la fonction count_vertices"""
         self.assertGreaterEqual(self.vertices, 0,
                                 "Renvoi bien un nombre positif")
-
+    
     def test_count_edges(self):
         """Permet de tester le bon type de renvoi pour la fonction count_edges"""
         self.assertGreaterEqual(self.edges, 0,
                                 "Nombre d'arrêtes entier")
-
+        
     def test_get_degree(self):
         """Permet de tester si le calcul de get_degree est exact"""
         self.assertEqual(self.degree, sum(self.df.Sommet == self.df.Sommet[0]),
@@ -51,9 +51,5 @@ class TestFunction(unittest.TestCase):
 
     def test_count_degree(self):
         """Permet de tester l'exactitude du renvoi de la fonction count_degree"""
-        self.assertEqual(self.count_degree, 4,
+        self.assertEqual(self.count_degree, 6,
                          "Bon nombre de protéine de degré 1")
-
-
-if __name__ == '__Chapitre_2__':
-    unittest.main()
