@@ -53,3 +53,7 @@ class TestFunction(unittest.TestCase):
         """Permet de tester l'exactitude du renvoi de la fonction count_degree"""
         self.assertEqual(self.count_degree, 6,
                          "Bon nombre de protéine de degré 1")
+
+
+if __name__ == '__Chapitre_2__':
+    unittest.main()

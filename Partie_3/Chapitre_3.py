@@ -10,10 +10,13 @@ from Chapitre_2 import *
 
 
 # Question 3.2.2
-
-
-class Interactome():
+class Interactome:
     def __init__(self, file):
+        """
+        Initialise les attributs de l'objet Interactome
+        :param file: un fichier compatible
+        :type: pandas DatFrame
+        """
         self.file = file
         self.int_list = self.read_interaction_file_list()
         self.int_dict = self.read_interaction_file_dict()
@@ -46,6 +49,11 @@ class Interactome():
         return dico_dict
 
     def read_interaction_file_list(self):
+        """
+        Renvoie la liste associée au graph d'intéraction entre protéines
+        :return: une liste de graphe sans interaction en double
+        :rtype: list
+        """
         res_list = []
         for i in range(len(self.file)):
             res1 = [self.file.Sommet[i], self.file.Interaction[i]]
@@ -56,6 +64,12 @@ class Interactome():
         return res_list
 
     def read_interaction_file_mat(self):
+        """
+        Renvoie la matrice d'adjacence associée au graph d'intéraction entre protéines ainsi que la liste
+        ordonnée des sommets
+        :return: une matrice d'adjascence de ce graphe et une liste ordonnée des sommets
+        :rtype: tuple
+        """
         list_sommets = pd.concat([self.file.Sommet, self.file.Interaction])
         list_sommets = sorted(list(dict.fromkeys(list_sommets)))
         res_mat = numpy.zeros((len(list_sommets), len(list_sommets)), dtype=int)
@@ -120,70 +134,74 @@ class Interactome():
         """
         list_graph = self.int_list
         list_graph = ["\t".join(map(str, elem)) for elem in list_graph]
-        list_graph.insert(0,len(list_graph))
+        list_graph.insert(0, len(list_graph))
         with open(fileout, "w") as fichier:
             fichier.write("\n".join(map(str, list_graph)))
 
     def get_degree(self, prot_str):
         """
         Calcul le nombre d'interaction de la protéine choisie
-        :param prot_str:
-        :type prot_str:
-        :return:
-        :rtype:
+        :param prot_str: le nom de la protéine
+        :type prot_str: str
+        :return: nombre d'intéraction de la protéine choisie
+        :rtype: int
         """
-        if type(self.int_dict[prot_str]) == str:
-            degree = 1
-        else:
-            degree = len(self.int_dict[prot_str])
+        try:
+            graph_dict = self.int_dict
+            degree = len(graph_dict[prot_str])
+        except KeyError:
+            return f"Erreur : La protéine {prot_str} n'existe pas dans ce graphe"
         return degree
 
     def get_max_degree(self):
         """
         Calcul le degré maximal obtenu par au moins une des protéines du graphe
-        :return:
-        :rtype:
+        :return: nom de la protéine de dégré maximal et son degré
+        :rtype: tuple
         """
-        count_list = []
-        for i in self.file.Sommet:
-            count_list.append(self.get_degree(i))
-        indice_int = count_list.index(max(count_list))
-        nom_prot_str = self.file.Sommet[indice_int]
-        deg_prot_int = max(count_list)
+        graph_dict = self.int_dict
+        deg_list = [len(degre) for degre in graph_dict.values()]
+        deg_prot_int = max(deg_list)
+        nom_prot_str = list(graph_dict.keys())[deg_list.index(deg_prot_int)]
         return nom_prot_str, deg_prot_int
 
     def get_ave_degree(self):
         """
         Calcul le degré moyen des protéines du graphe
-        :return:
-        :rtype:
+        :return: le degré moyen des protéines du graphe
+        :rtype: int
         """
-        count_list = []
-        for i in self.file.Sommet:
-            count_list.append(self.get_degree(i))
-        return sum(count_list)/len(self.file.Sommet)
+        graph_dict = self.int_dict
+        deg_list = [len(degre) for degre in graph_dict.values()]
+        no_duplicated_sort_list = sorted(list(dict.fromkeys(deg_list)))
+        index_int = (len(no_duplicated_sort_list) // 2) \
+            if isinstance(len(no_duplicated_sort_list) / 2, float) \
+            else len(no_duplicated_sort_list) / 2  # dans ce cas devrait-on prendre l'inf ou le sup?
+        deg_ave_int = no_duplicated_sort_list[index_int]
+        return deg_ave_int
 
     def count_degree(self, deg_int):
         """
-        Calcul le nombre de protéines étant du degré sélectionné
-        :param deg_int:
-        :type deg_int:
-        :return:
-        :rtype:
+        Calcul le nombre de protéines correspondant au degré sélectionné
+        :param deg_int: un degré quelconque d'une protéine
+        :type deg_int: int
+        :return: nombre de protéines qui ont un degré égal à deg_int
+        :rtype: int
         """
-        count_int = 0
-        for i in self.file.Sommet:
-            if self.get_degree(i) == deg_int:
-                count_int += 1
+        graph_dict = self.int_dict
+        deg_list = [len(degre) for degre in graph_dict.values()]
+        count_int = deg_list.count(deg_int)
         return count_int
 
     def histogram_degree(self, dmin, dmax):
         """
         Renvoie l'histgramme du nombre de protéine de certains degré suivant des bornes indiquées
-        :param dmin:
-        :type dmin:
-        :param dmax:
-        :type dmax:
+        :param dmin: degré minimal à représenter
+        :type int
+        :param dmax: degré maximal à représenter
+        :type int
+        :return: none
+        :rtype: none
         """
         count_list = []
         for d in range(dmin, dmax + 1):
@@ -193,14 +211,25 @@ class Interactome():
             print(str(i) + " : " + "*" * count_list[i-dmin])
 
     def density(self):
-        D = 2 * len(self.int_dict.keys()) / (len(self.int_dict.values()) * (len(self.int_dict.values()) -1))
-        return D
+        """
+        Calcul la densité du graph d'interaction.
+        :return: d: le calcul de la densité.
+        :rtype: float
+        """
+        d = 2 * len(self.int_dict.keys()) / (len(self.int_dict.values()) * (len(self.int_dict.values()) - 1))
+        return d
 
     def clustering(self, prot):
+        """
+        :param prot:
+        :type prot:
+        :return: coeff: le calcul du coefficient de clustering individuel
+        :rtype: float
+        """
         count_int = 0
         for prot_arrete in self.int_dict.get(prot):
             count_int += self.get_degree(prot_arrete)
-        if count_int in [0,1]:
+        if count_int in [0, 1]:
             coeff = 0
         else:
             coeff = 2*self.get_degree(prot) / (count_int * (count_int - 1))

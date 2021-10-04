@@ -43,7 +43,7 @@ def clean_interactome(filein, fileout):
     """
     graph_list = read_interaction_file_list(filein)
     graph_list = ["\t".join(map(str, elem)) for elem in graph_list]
-    graph_list.insert(0,len(graph_list))
+    graph_list.insert(0, len(graph_list))
     with open(fileout, "w") as fichier:
         fichier.write("\n".join(map(str, graph_list)))
 
@@ -97,7 +97,7 @@ def get_ave_degree(file):
     no_duplicated_sort_list = sorted(list(dict.fromkeys(deg_list)))
     index_int = (len(no_duplicated_sort_list)//2) \
         if isinstance(len(no_duplicated_sort_list)/2, float) \
-        else len(no_duplicated_sort_list)/2 # dans ce cas devrait-on prendre l'inf ou le sup?
+        else len(no_duplicated_sort_list)/2  # dans ce cas devrait-on prendre l'inf ou le sup?
     deg_ave_int = no_duplicated_sort_list[index_int]
     return deg_ave_int
 
