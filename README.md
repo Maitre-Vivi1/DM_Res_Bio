@@ -1,4 +1,4 @@
-# DM Réseaux Biologiques
+# Projet : Intéractions protéine-protéine
 
 Groupe : Vivien Dupont & Guy Fleury Iradukunda
 
