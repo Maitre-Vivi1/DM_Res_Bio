@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy
+import sys
 from itertools import combinations
+
+# Question 3.1.1
+# On lit le fichier dmax - dmin + 1 fois lors de l'execution de la fonction histogram_degree.
 
 class Structure:
     def __init__(self, file):
