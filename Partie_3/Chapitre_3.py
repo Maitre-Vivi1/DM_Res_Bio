@@ -218,8 +218,16 @@ class Interactome(Structure):
             if degre_int <= 1:
                 coef_float = 0
             else:
+                interact_list = self.int_dict[prot]
+                triangle_list = []
+                for i in range(len(interact_list)):
+                    for elem in interact_list:
+                        if elem in self.int_dict[interact_list[i]] and \
+                                (elem, interact_list[i]) not in triangle_list and \
+                                (interact_list[i], elem) not in triangle_list:
+                            triangle_list.append((elem, interact_list[i]))
                 pairs_int = [i for i in combinations(range(degre_int), 2)]
-                coef_float = degre_int/len(pairs_int)
+                coef_float = len(triangle_list)/len(pairs_int)
         except KeyError:
             return f"Erreur : La protéine {prot} n'existe pas dans ce graphe"
         return coef_float
