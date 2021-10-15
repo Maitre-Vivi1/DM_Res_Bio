@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy
-import sys
 from itertools import combinations
+from collections import Counter
+from itertools import repeat
 
 # Question 3.1.1
 # On lit le fichier dmax - dmin + 1 fois lors de l'execution de la fonction histogram_degree.
@@ -10,7 +11,7 @@ class Structure:
     def __init__(self, file):
         """
         Constructeur d'un graphe
-        :param file: nom du fichier à lire
+        :param file: nom du fichier avec son extension
         :type file: str
         """
         self.graph_data = pd.read_csv('../DM_Res_Bio/' + str(file), sep='\t', header=0,
@@ -81,6 +82,8 @@ class Interactome(Structure):
     def __init__(self, file):
         """
         Constructeur de l'interactome
+        :param file: nom du fichier avec son extension
+        :type file: str
         """
         super().__init__(file)
         self.int_list = super().read_interaction_file_list()
@@ -112,30 +115,30 @@ class Interactome(Structure):
         """
         permet de nettoyer tous les intéractions redondantes et tous les homo-dimères
         qui se trouve dans le fichier de départ et stocke le résultat dans un fichier fileout
-        :param fileout: nom du fichier qu'on veut créer
+        :param fileout: nom du fichier qu'on veut créer avec son extension
         :type fileout: str
         :return: none
         :rtype: none
         """
         graph_list = ["\t".join(map(str, elem)) for elem in self.int_list]
-        graph_list.insert(0, len(graph_list))
+        graph_list.insert(0, str(len(graph_list)))
         with open(fileout, "w") as fichier:
             fichier.write("\n".join(map(str, graph_list)))
 
 
-    def get_degree(self, prot_str):
+    def get_degree(self, prot):
         """
         Calcul le nombre d'interaction de la protéine choisie
-        :param prot_str: le nom de la protéine
-        :type prot_str: str
+        :param prot: le nom de la protéine
+        :type prot: str
         :return: nombre d'intéraction de la protéine choisie
         :rtype: int
         """
         try:
-            degree = len(self.int_dict[prot_str])
+            degree_int = len(self.int_dict[prot])
         except KeyError:
-            return f"Erreur : La protéine {prot_str} n'existe pas dans ce graphe"
-        return degree
+            return f"Erreur : La protéine {prot} n'existe pas dans ce graphe"
+        return degree_int
 
 
     def get_max_degree(self):
@@ -157,12 +160,8 @@ class Interactome(Structure):
         :rtype: int
         """
         deg_list = [len(degre) for degre in self.int_dict.values()]
-        no_duplicated_sort_list = sorted(list(dict.fromkeys(deg_list)))
-        index_int = (len(no_duplicated_sort_list) // 2) \
-            if isinstance(len(no_duplicated_sort_list) / 2, float) \
-            else len(no_duplicated_sort_list) / 2  # dans ce cas devrait-on prendre l'inf ou le sup?
-        deg_ave_int = no_duplicated_sort_list[index_int]
-        return deg_ave_int
+        deg_ave_int = sum(deg_list)/len(deg_list)
+        return round(deg_ave_int)
 
 
     def count_degree(self, deg_int):
@@ -231,3 +230,67 @@ class Interactome(Structure):
         except KeyError:
             return f"Erreur : La protéine {prot} n'existe pas dans ce graphe"
         return coef_float
+
+    def compute_cc(self):
+        """
+        renvoie une liste lcc dont chaque élément lcc[i] correspond au numéro de composante connexe
+        de la protéine à la position i dans la liste des protéines du graphe (attribut de la classe)
+        :return: liste de numero de composante connexe
+        :rtype: list
+        """
+        num_prot_list = list(range(len(self.proteins)))
+        modifications = True
+        while modifications:
+            modifications = False
+            for i in range(len(self.proteins)):
+                for j in range(i + 1, len(self.proteins)):
+                    if self.int_mat[i, j] == 1 and num_prot_list[i] != num_prot_list[j]:
+                        num_prot_list[i] = num_prot_list[j] = min(num_prot_list[i], num_prot_list[j])
+                        modifications = True
+        return num_prot_list
+
+    def count_cc(self):
+        """
+        calcule le nombre de composantes connexes d’un graphe, et donne pour chacune d’elle sa taille
+        (c’est à dire son nombre de protéines)
+        :return: le nombre de composantes connexes et un dictionnaire de composantes connexes et leurs tailles
+        :rtype: tuple
+        """
+        cc_dict = dict(Counter(self.compute_cc()))
+        return len(cc_dict), cc_dict
+
+    def write_cc(self):
+        """
+        Ecrit dans un fichier les différentes composantes connexes d’un graphe selon le format suivant:
+        - une ligne par composante connexe
+        - le premier élément de la ligne est la taille de la composante connexe,
+        - ensuite vous ajouterez la liste des sommets qui composent cette composante connexe.
+        """
+        cc_index_list = {}
+        for i, c in enumerate(self.compute_cc()):
+            if c not in cc_index_list:
+                cc_index_list[c] = []
+            cc_index_list[c].append(i)
+        cc_name_list = [[self.proteins[indice] for indice in num_prot] for num_prot in cc_index_list.values()]
+        cc_graph_list = [[len(elem), elem] for elem in cc_name_list]
+        graph_list = ["\t".join(map(str, elem)) for elem in cc_graph_list]
+        with open("connex_components.txt", "w") as fichier:
+            fichier.write("\n".join(map(str, graph_list)))
+
+    def extract_cc(self, prot):
+        """
+        permet de calculer toutes les sommets de la composante connexe de prot
+        :param prot: nom du protéine dont on  veut extraire les sommets correspondants
+        :type prot: str
+        :return: liste de protéines appartenant à une même composante connexe
+        :rtype: list
+        """
+        cc_index_list = {}
+        for i, c in enumerate(self.compute_cc()):
+            if c not in cc_index_list:
+                cc_index_list[c] = []
+            cc_index_list[c].append(i)
+        cc_name_list = [[self.proteins[indice] for indice in num_prot] for num_prot in cc_index_list.values()]
+        return [prot_list for prot_list in cc_name_list if prot in prot_list][0]
+
+
